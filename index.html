@@ -4,455 +4,676 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Search Produto — Inteligência de Mercado para o Mercado Livre</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --amarelo: #FFE600;
-    --azul: #1a1aff;
-    --azul-escuro: #0a0a2e;
-    --branco: #ffffff;
-    --cinza: #f4f4f0;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--azul-escuro);
-    color: var(--branco);
-    overflow-x: hidden;
-  }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
-  /* HERO */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 2rem;
-    position: relative;
-    background: radial-gradient(ellipse at 60% 20%, #1a1aff33 0%, transparent 60%),
-                radial-gradient(ellipse at 20% 80%, #FFE60022 0%, transparent 50%),
-                var(--azul-escuro);
-    overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    width: 600px; height: 600px;
-    border-radius: 50%;
-    border: 1px solid #FFE60015;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    animation: pulse 4s ease-in-out infinite;
-  }
-  .hero::after {
-    content: '';
-    position: absolute;
-    width: 900px; height: 900px;
-    border-radius: 50%;
-    border: 1px solid #1a1aff22;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    animation: pulse 4s ease-in-out infinite 1s;
-  }
-  @keyframes pulse {
-    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
-    50% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
-  }
-  .badge {
-    background: var(--amarelo);
-    color: var(--azul-escuro);
-    font-weight: 700;
-    font-size: 13px;
-    padding: 6px 16px;
-    border-radius: 100px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 2rem;
-    display: inline-block;
-    position: relative;
-    z-index: 1;
-    animation: fadeDown 0.6s ease both;
-  }
-  @keyframes fadeDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .hero h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(3rem, 8vw, 7rem);
-    font-weight: 800;
-    line-height: 0.95;
-    letter-spacing: -2px;
-    position: relative;
-    z-index: 1;
-    animation: fadeUp 0.8s ease 0.2s both;
-  }
-  .hero h1 span { color: var(--amarelo); }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .hero p {
-    font-size: clamp(1rem, 2vw, 1.25rem);
-    color: #ffffffaa;
-    max-width: 560px;
-    margin: 1.5rem auto 2.5rem;
-    line-height: 1.7;
-    position: relative;
-    z-index: 1;
-    animation: fadeUp 0.8s ease 0.4s both;
-  }
-  .cta-group {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    position: relative;
-    z-index: 1;
-    animation: fadeUp 0.8s ease 0.6s both;
-  }
-  .btn-primary {
-    background: var(--amarelo);
-    color: var(--azul-escuro);
-    font-weight: 700;
-    font-size: 1rem;
-    padding: 14px 32px;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px #FFE60044;
-  }
-  .btn-secondary {
-    background: transparent;
-    color: var(--branco);
-    font-weight: 600;
-    font-size: 1rem;
-    padding: 14px 32px;
-    border-radius: 8px;
-    text-decoration: none;
-    border: 1px solid #ffffff33;
-    transition: border-color 0.2s, transform 0.2s;
-  }
-  .btn-secondary:hover {
-    border-color: #ffffff88;
-    transform: translateY(-2px);
-  }
+:root {
+  --bg: #04040f;
+  --bg2: #080818;
+  --yellow: #FFE600;
+  --blue: #3b82f6;
+  --blue-glow: #3b82f622;
+  --white: #ffffff;
+  --muted: #8b8ba7;
+  --border: rgba(255,255,255,0.07);
+  --card-bg: rgba(255,255,255,0.04);
+}
 
-  /* STATS */
-  .stats {
-    background: var(--amarelo);
-    padding: 3rem 2rem;
-    display: flex;
-    justify-content: center;
-    gap: 4rem;
-    flex-wrap: wrap;
-  }
-  .stat { text-align: center; color: var(--azul-escuro); }
-  .stat-num {
-    font-family: 'Syne', sans-serif;
-    font-size: 3rem;
-    font-weight: 800;
-    line-height: 1;
-  }
-  .stat-label { font-size: 0.9rem; font-weight: 600; opacity: 0.7; margin-top: 4px; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--white);
+  overflow-x: hidden;
+}
 
-  /* FEATURES */
-  .features {
-    padding: 6rem 2rem;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .section-label {
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--amarelo);
-    margin-bottom: 1rem;
-  }
-  .section-title {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 800;
-    line-height: 1.1;
-    margin-bottom: 3rem;
-  }
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-  }
-  .card {
-    background: #ffffff08;
-    border: 1px solid #ffffff12;
-    border-radius: 16px;
-    padding: 2rem;
-    transition: transform 0.3s, border-color 0.3s;
-  }
-  .card:hover {
-    transform: translateY(-4px);
-    border-color: #FFE60044;
-  }
-  .card-icon {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-  }
-  .card h3 {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-  }
-  .card p { color: #ffffffaa; line-height: 1.7; font-size: 0.95rem; }
+/* ── GRID BACKGROUND ── */
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+}
 
-  /* PRICING */
-  .pricing {
-    padding: 6rem 2rem;
-    background: #ffffff06;
-  }
-  .pricing-inner { max-width: 1000px; margin: 0 auto; text-align: center; }
-  .pricing-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.5rem;
-    margin-top: 3rem;
-  }
-  .plan {
-    background: #ffffff08;
-    border: 1px solid #ffffff15;
-    border-radius: 16px;
-    padding: 2.5rem 2rem;
-    position: relative;
-    transition: transform 0.3s;
-  }
-  .plan:hover { transform: translateY(-4px); }
-  .plan.featured {
-    background: var(--amarelo);
-    color: var(--azul-escuro);
-    border-color: var(--amarelo);
-  }
-  .plan-tag {
-    position: absolute;
-    top: -12px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--azul);
-    color: white;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 4px 14px;
-    border-radius: 100px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-  .plan-name {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    opacity: 0.7;
-  }
-  .plan-price {
-    font-family: 'Syne', sans-serif;
-    font-size: 3rem;
-    font-weight: 800;
-    line-height: 1;
-    margin: 1rem 0;
-  }
-  .plan-price span { font-size: 1rem; font-weight: 400; }
-  .plan-features { list-style: none; margin: 1.5rem 0; text-align: left; }
-  .plan-features li {
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #00000015;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .plan-features li::before { content: '✓'; font-weight: 700; color: #22c55e; }
-  .plan.featured .plan-features li::before { color: var(--azul-escuro); }
-  .plan-btn {
-    display: block;
-    text-align: center;
-    padding: 12px;
-    border-radius: 8px;
-    font-weight: 700;
-    text-decoration: none;
-    margin-top: 1.5rem;
-    background: var(--azul-escuro);
-    color: var(--branco);
-    transition: opacity 0.2s;
-  }
-  .plan.featured .plan-btn {
-    background: var(--azul-escuro);
-    color: var(--amarelo);
-  }
-  .plan-btn:hover { opacity: 0.8; }
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 4rem;
+  background: rgba(4,4,15,0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+  color: var(--white);
+}
+.nav-logo span { color: var(--yellow); }
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--white); }
+.nav-cta {
+  background: var(--yellow);
+  color: #04040f;
+  font-weight: 700;
+  font-size: 0.875rem;
+  padding: 8px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
 
-  /* CTA FINAL */
-  .cta-section {
-    padding: 6rem 2rem;
-    text-align: center;
-    background: radial-gradient(ellipse at center, #1a1aff22 0%, transparent 70%);
-  }
-  .cta-section h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 800;
-    margin-bottom: 1rem;
-  }
-  .cta-section p { color: #ffffffaa; margin-bottom: 2rem; font-size: 1.1rem; }
+/* ── HERO ── */
+.hero {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8rem 2rem 4rem;
+  overflow: hidden;
+}
+.glow-orb {
+  position: absolute;
+  width: 800px; height: 800px;
+  background: radial-gradient(circle, #3b82f615 0%, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -60%);
+  pointer-events: none;
+}
+.glow-orb-yellow {
+  position: absolute;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, #FFE60010 0%, transparent 70%);
+  top: 30%; left: 60%;
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--muted);
+  margin-bottom: 2.5rem;
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  animation: fadeIn 0.8s ease both;
+}
+.hero-badge span { color: var(--yellow); }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(5rem, 14vw, 11rem);
+  line-height: 0.9;
+  letter-spacing: 4px;
+  animation: fadeIn 0.8s ease 0.1s both;
+}
+.hero h1 .yellow { color: var(--yellow); }
+.hero-sub {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: var(--muted);
+  max-width: 500px;
+  line-height: 1.75;
+  margin: 2rem auto;
+  animation: fadeIn 0.8s ease 0.2s both;
+}
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: fadeIn 0.8s ease 0.3s both;
+}
+.btn-primary {
+  background: var(--yellow);
+  color: #04040f;
+  font-weight: 700;
+  padding: 14px 32px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 40px #FFE60030;
+}
+.btn-ghost {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  color: var(--white);
+  font-weight: 500;
+  padding: 14px 32px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: border-color 0.2s, transform 0.2s;
+  backdrop-filter: blur(10px);
+}
+.btn-ghost:hover {
+  border-color: rgba(255,255,255,0.2);
+  transform: translateY(-2px);
+}
 
-  /* FOOTER */
-  footer {
-    background: #05050f;
-    padding: 2rem;
-    text-align: center;
-    color: #ffffff44;
-    font-size: 0.85rem;
-    border-top: 1px solid #ffffff10;
-  }
-  footer strong { color: #ffffff88; }
+/* ── MARQUEE ── */
+.marquee-wrap {
+  position: relative;
+  z-index: 1;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--card-bg);
+  overflow: hidden;
+}
+.marquee {
+  display: flex;
+  gap: 3rem;
+  animation: marquee 20s linear infinite;
+  width: max-content;
+}
+.marquee-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.marquee-item .dot {
+  width: 6px; height: 6px;
+  background: var(--yellow);
+  border-radius: 50%;
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ── STATS ── */
+.stats {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.stat {
+  background: var(--bg);
+  padding: 3rem 2rem;
+  text-align: center;
+}
+.stat-num {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3.5rem;
+  letter-spacing: 2px;
+  color: var(--yellow);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin-top: 0.5rem;
+}
+
+/* ── FEATURES ── */
+.features {
+  position: relative;
+  z-index: 1;
+  padding: 8rem 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.section-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--yellow);
+  margin-bottom: 1rem;
+}
+.section-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  letter-spacing: 2px;
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+.section-sub {
+  color: var(--muted);
+  font-size: 1rem;
+  max-width: 500px;
+  line-height: 1.7;
+  margin-bottom: 4rem;
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.feature-card {
+  background: var(--bg2);
+  padding: 2.5rem;
+  transition: background 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.feature-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 0% 0%, #FFE60008, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.feature-card:hover { background: #0c0c20; }
+.feature-card:hover::before { opacity: 1; }
+.feature-icon {
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+.feature-card h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.3px;
+}
+.feature-card p {
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* ── PRICING ── */
+.pricing {
+  position: relative;
+  z-index: 1;
+  padding: 8rem 4rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 4rem;
+}
+.plan {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2.5rem;
+  background: var(--card-bg);
+  position: relative;
+  transition: transform 0.3s, border-color 0.3s;
+}
+.plan:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,0.15);
+}
+.plan.featured {
+  border-color: var(--yellow);
+  background: linear-gradient(135deg, #FFE60010, #FFE60005);
+}
+.plan-badge {
+  position: absolute;
+  top: -13px; left: 50%;
+  transform: translateX(-50%);
+  background: var(--yellow);
+  color: #04040f;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 100px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.plan-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+.plan-price {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 4rem;
+  letter-spacing: 2px;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+.plan-period {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+.plan-divider {
+  height: 1px;
+  background: var(--border);
+  margin-bottom: 2rem;
+}
+.plan-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  margin-bottom: 2rem;
+}
+.plan-features li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+.plan-features li .check {
+  width: 18px; height: 18px;
+  background: #FFE60020;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  flex-shrink: 0;
+  color: var(--yellow);
+}
+.plan-btn {
+  display: block;
+  text-align: center;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  color: var(--white);
+  transition: all 0.2s;
+}
+.plan.featured .plan-btn {
+  background: var(--yellow);
+  color: #04040f;
+  border-color: var(--yellow);
+}
+.plan-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+
+/* ── CTA ── */
+.cta {
+  position: relative;
+  z-index: 1;
+  margin: 0 4rem 8rem;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 6rem 4rem;
+  text-align: center;
+  background: linear-gradient(135deg, #080818, #0c0c28);
+  overflow: hidden;
+}
+.cta::before {
+  content: '';
+  position: absolute;
+  width: 600px; height: 300px;
+  background: radial-gradient(ellipse, #3b82f615, transparent 70%);
+  top: -100px; left: 50%;
+  transform: translateX(-50%);
+}
+.cta h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 5rem);
+  letter-spacing: 3px;
+  position: relative;
+}
+.cta h2 span { color: var(--yellow); }
+.cta p {
+  color: var(--muted);
+  margin: 1.5rem auto 2.5rem;
+  max-width: 440px;
+  font-size: 1rem;
+  line-height: 1.7;
+  position: relative;
+}
+
+/* ── FOOTER ── */
+footer {
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--border);
+  padding: 2.5rem 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.footer-logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.25rem;
+  letter-spacing: 2px;
+}
+.footer-logo span { color: var(--yellow); }
+footer p {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .features, .pricing { padding: 5rem 1.5rem; }
+  .features-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .cta { margin: 0 1.5rem 5rem; padding: 4rem 2rem; }
+  footer { padding: 2rem 1.5rem; flex-direction: column; text-align: center; }
+}
 </style>
 </head>
 <body>
 
+<div class="grid-bg"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Search<span>Produto</span></div>
+  <ul class="nav-links">
+    <li><a href="#funcionalidades">Funcionalidades</a></li>
+    <li><a href="#planos">Planos</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <a href="#planos" class="nav-cta">Começar grátis →</a>
+</nav>
+
 <!-- HERO -->
 <section class="hero">
-  <span class="badge">🔍 API Mercado Livre</span>
-  <h1>Search<br><span>Produto</span></h1>
-  <p>Inteligência de mercado em tempo real para vendedores do Mercado Livre. Analise preços, concorrentes, status Full e tendências com um clique.</p>
-  <div class="cta-group">
+  <div class="glow-orb"></div>
+  <div class="glow-orb-yellow"></div>
+  <div class="hero-badge">
+    <span>●</span> API oficial do Mercado Livre · Dados em tempo real
+  </div>
+  <h1>SEARCH<br><span class="yellow">PRODUTO</span></h1>
+  <p class="hero-sub">Inteligência de mercado para vendedores do Mercado Livre. Analise preços, concorrentes, status Full e tendências em segundos.</p>
+  <div class="hero-actions">
     <a href="#planos" class="btn-primary">Começar grátis</a>
-    <a href="#funcionalidades" class="btn-secondary">Ver funcionalidades</a>
+    <a href="#funcionalidades" class="btn-ghost">Ver funcionalidades</a>
   </div>
 </section>
 
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee">
+    <div class="marquee-item"><span class="dot"></span>Análise de Preços</div>
+    <div class="marquee-item"><span class="dot"></span>Status Full</div>
+    <div class="marquee-item"><span class="dot"></span>Volume de Vendas</div>
+    <div class="marquee-item"><span class="dot"></span>Idade do Anúncio</div>
+    <div class="marquee-item"><span class="dot"></span>Tendências do Dia</div>
+    <div class="marquee-item"><span class="dot"></span>Reputação do Vendedor</div>
+    <div class="marquee-item"><span class="dot"></span>Exportar para Excel</div>
+    <div class="marquee-item"><span class="dot"></span>Alertas de Oportunidade</div>
+    <div class="marquee-item"><span class="dot"></span>Análise de Preços</div>
+    <div class="marquee-item"><span class="dot"></span>Status Full</div>
+    <div class="marquee-item"><span class="dot"></span>Volume de Vendas</div>
+    <div class="marquee-item"><span class="dot"></span>Idade do Anúncio</div>
+    <div class="marquee-item"><span class="dot"></span>Tendências do Dia</div>
+    <div class="marquee-item"><span class="dot"></span>Reputação do Vendedor</div>
+    <div class="marquee-item"><span class="dot"></span>Exportar para Excel</div>
+    <div class="marquee-item"><span class="dot"></span>Alertas de Oportunidade</div>
+  </div>
+</div>
+
 <!-- STATS -->
-<section class="stats">
-  <div class="stat">
-    <div class="stat-num">20+</div>
-    <div class="stat-label">Dados por anúncio</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">Real</div>
-    <div class="stat-label">Tempo real via API</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">50+</div>
-    <div class="stat-label">Resultados por busca</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">100%</div>
-    <div class="stat-label">Dados do Mercado Livre</div>
-  </div>
-</section>
+<div class="stats">
+  <div class="stat"><div class="stat-num">50+</div><div class="stat-label">Resultados por busca</div></div>
+  <div class="stat"><div class="stat-num">20+</div><div class="stat-label">Dados por anúncio</div></div>
+  <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Dados oficiais do ML</div></div>
+  <div class="stat"><div class="stat-num">Real</div><div class="stat-label">Tempo real via API</div></div>
+</div>
 
 <!-- FEATURES -->
 <section class="features" id="funcionalidades">
-  <div class="section-label">Funcionalidades</div>
+  <div class="section-tag">Funcionalidades</div>
   <h2 class="section-title">Tudo que você precisa<br>para vender mais</h2>
-  <div class="grid">
-    <div class="card">
-      <div class="card-icon">🔍</div>
+  <p class="section-sub">Dados reais do Mercado Livre organizados de forma inteligente para você tomar decisões melhores.</p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-icon">🔍</span>
       <h3>Busca Inteligente</h3>
       <p>Pesquise qualquer produto e veja os 50 primeiros resultados com todos os dados em uma única tela organizada.</p>
     </div>
-    <div class="card">
-      <div class="card-icon">💰</div>
+    <div class="feature-card">
+      <span class="feature-icon">💰</span>
       <h3>Análise de Preços</h3>
-      <p>Veja menor, maior e preço médio do mercado. Descubra o ponto ideal para precificar seu produto e vender mais.</p>
+      <p>Menor, maior e preço médio do mercado. Descubra o ponto ideal para precificar seu produto.</p>
     </div>
-    <div class="card">
-      <div class="card-icon">🚀</div>
+    <div class="feature-card">
+      <span class="feature-icon">🚀</span>
       <h3>Status Full</h3>
-      <p>Identifique quais concorrentes usam Mercado Envios Full e entenda o impacto nas vendas deles.</p>
+      <p>Identifique quais concorrentes usam Mercado Envios Full e o impacto disso nas vendas deles.</p>
     </div>
-    <div class="card">
-      <div class="card-icon">📊</div>
+    <div class="feature-card">
+      <span class="feature-icon">📊</span>
       <h3>Volume de Vendas</h3>
-      <p>Veja quantas unidades cada anúncio vendeu e identifique os produtos com maior demanda no mercado.</p>
+      <p>Veja quantas unidades cada anúncio vendeu e identifique os produtos com maior demanda.</p>
     </div>
-    <div class="card">
-      <div class="card-icon">📅</div>
+    <div class="feature-card">
+      <span class="feature-icon">📅</span>
       <h3>Idade do Anúncio</h3>
-      <p>Saiba há quantos dias cada anúncio está no ar. Identifique oportunidades em nichos com anúncios antigos.</p>
+      <p>Saiba há quantos dias cada anúncio está no ar. Nichos com anúncios antigos = oportunidade.</p>
     </div>
-    <div class="card">
-      <div class="card-icon">📈</div>
+    <div class="feature-card">
+      <span class="feature-icon">📈</span>
       <h3>Tendências</h3>
-      <p>Descubra o que está sendo mais buscado no Mercado Livre hoje e antecipe oportunidades de mercado.</p>
+      <p>Descubra o que está sendo mais buscado no ML hoje e antecipe oportunidades de mercado.</p>
     </div>
   </div>
 </section>
 
 <!-- PRICING -->
 <section class="pricing" id="planos">
-  <div class="pricing-inner">
-    <div class="section-label">Planos</div>
-    <h2 class="section-title">Simples e transparente</h2>
-    <div class="pricing-grid">
-      <div class="plan">
-        <div class="plan-name">Básico</div>
-        <div class="plan-price">R$97<span>/mês</span></div>
-        <ul class="plan-features">
-          <li>5 buscas por dia</li>
-          <li>20 resultados por busca</li>
-          <li>Preços e vendas</li>
-          <li>Status Full</li>
-          <li>Suporte por email</li>
-        </ul>
-        <a href="#" class="plan-btn">Começar agora</a>
-      </div>
-      <div class="plan featured">
-        <div class="plan-tag">⭐ Mais popular</div>
-        <div class="plan-name">Pro</div>
-        <div class="plan-price">R$197<span>/mês</span></div>
-        <ul class="plan-features">
-          <li>Buscas ilimitadas</li>
-          <li>50 resultados por busca</li>
-          <li>Análise completa de preços</li>
-          <li>Tendências do dia</li>
-          <li>Exportar para Excel</li>
-          <li>Alertas de oportunidade</li>
-          <li>Suporte prioritário</li>
-        </ul>
-        <a href="#" class="plan-btn">Começar agora</a>
-      </div>
-      <div class="plan">
-        <div class="plan-name">Agência</div>
-        <div class="plan-price">R$497<span>/mês</span></div>
-        <ul class="plan-features">
-          <li>Tudo do plano Pro</li>
-          <li>Multi-usuário (até 10)</li>
-          <li>Acesso via API</li>
-          <li>Relatórios personalizados</li>
-          <li>Gerente de conta dedicado</li>
-        </ul>
-        <a href="#" class="plan-btn">Falar com vendas</a>
-      </div>
+  <div class="section-tag">Planos</div>
+  <h2 class="section-title">Simples e transparente</h2>
+  <p class="section-sub">Sem surpresas. Cancele quando quiser.</p>
+  <div class="pricing-grid">
+    <div class="plan">
+      <div class="plan-name">Básico</div>
+      <div class="plan-price">R$97</div>
+      <div class="plan-period">por mês</div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li><span class="check">✓</span>5 buscas por dia</li>
+        <li><span class="check">✓</span>20 resultados por busca</li>
+        <li><span class="check">✓</span>Preços e vendas</li>
+        <li><span class="check">✓</span>Status Full</li>
+        <li><span class="check">✓</span>Suporte por email</li>
+      </ul>
+      <a href="#" class="plan-btn">Começar agora</a>
+    </div>
+    <div class="plan featured">
+      <div class="plan-badge">⭐ Mais popular</div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-price">R$197</div>
+      <div class="plan-period">por mês</div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li><span class="check">✓</span>Buscas ilimitadas</li>
+        <li><span class="check">✓</span>50 resultados por busca</li>
+        <li><span class="check">✓</span>Análise completa de preços</li>
+        <li><span class="check">✓</span>Tendências do dia</li>
+        <li><span class="check">✓</span>Exportar para Excel</li>
+        <li><span class="check">✓</span>Alertas de oportunidade</li>
+        <li><span class="check">✓</span>Suporte prioritário</li>
+      </ul>
+      <a href="#" class="plan-btn">Começar agora</a>
+    </div>
+    <div class="plan">
+      <div class="plan-name">Agência</div>
+      <div class="plan-price">R$497</div>
+      <div class="plan-period">por mês</div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li><span class="check">✓</span>Tudo do plano Pro</li>
+        <li><span class="check">✓</span>Multi-usuário (10 contas)</li>
+        <li><span class="check">✓</span>Acesso via API</li>
+        <li><span class="check">✓</span>Relatórios personalizados</li>
+        <li><span class="check">✓</span>Gerente de conta dedicado</li>
+      </ul>
+      <a href="#" class="plan-btn">Falar com vendas</a>
     </div>
   </div>
 </section>
 
 <!-- CTA FINAL -->
-<section class="cta-section">
-  <h2>Pronto para vender<br><span style="color:var(--amarelo)">muito mais?</span></h2>
-  <p>Junte-se a centenas de vendedores que usam dados reais para tomar decisões melhores.</p>
-  <a href="#planos" class="btn-primary" style="font-size:1.1rem; padding:16px 40px;">Começar agora →</a>
-</section>
+<div class="cta">
+  <h2>PRONTO PARA<br><span>VENDER MAIS?</span></h2>
+  <p>Junte-se a centenas de vendedores que usam dados reais para tomar decisões melhores no Mercado Livre.</p>
+  <a href="#planos" class="btn-primary" style="font-size:1rem; padding:16px 40px;">Começar agora →</a>
+</div>
 
 <!-- FOOTER -->
-<footer>
-  <strong>Search Produto</strong> — Plataforma de inteligência de mercado para vendedores do Mercado Livre<br>
-  © 2026 Promoblend. Todos os direitos reservados.
+<footer id="contato">
+  <div class="footer-logo">Search<span>Produto</span></div>
+  <p>© 2026 Promoblend. Todos os direitos reservados.</p>
+  <p>comercialpromoblend@gmail.com</p>
 </footer>
 
 </body>
