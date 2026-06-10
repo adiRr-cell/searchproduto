@@ -4,518 +4,188 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Search Produto — Inteligência de Mercado para o Mercado Livre</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-
 :root {
   --bg: #04040f;
   --bg2: #080818;
   --yellow: #FFE600;
   --blue: #3b82f6;
-  --blue-glow: #3b82f622;
   --white: #ffffff;
   --muted: #8b8ba7;
   --border: rgba(255,255,255,0.07);
-  --card-bg: rgba(255,255,255,0.04);
+  --card: rgba(255,255,255,0.04);
 }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--white); overflow-x: hidden; }
 
-body {
-  font-family: 'Inter', sans-serif;
-  background: var(--bg);
-  color: var(--white);
-  overflow-x: hidden;
-}
-
-/* ── GRID BACKGROUND ── */
 .grid-bg {
-  position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(var(--border) 1px, transparent 1px),
-    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  position: fixed; inset: 0;
+  background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
   background-size: 60px 60px;
-  pointer-events: none;
-  z-index: 0;
+  pointer-events: none; z-index: 0;
   mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
 }
 
-/* ── NAV ── */
+/* NAV */
 nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
   padding: 1.25rem 4rem;
-  background: rgba(4,4,15,0.8);
-  backdrop-filter: blur(20px);
+  background: rgba(4,4,15,0.85); backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
 }
-.nav-logo {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.6rem;
-  letter-spacing: 2px;
-  color: var(--white);
-}
+.nav-logo { font-family: 'Orbitron', sans-serif; font-size: 1.3rem; letter-spacing: 3px; }
 .nav-logo span { color: var(--yellow); }
-.nav-links {
-  display: flex;
-  gap: 2rem;
-  list-style: none;
-}
-.nav-links a {
-  color: var(--muted);
-  text-decoration: none;
-  font-size: 0.875rem;
-  font-weight: 500;
-  transition: color 0.2s;
-}
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
 .nav-links a:hover { color: var(--white); }
-.nav-cta {
-  background: var(--yellow);
-  color: #04040f;
-  font-weight: 700;
-  font-size: 0.875rem;
-  padding: 8px 20px;
-  border-radius: 6px;
-  text-decoration: none;
-  transition: opacity 0.2s, transform 0.2s;
-}
+.nav-cta { background: var(--yellow); color: #04040f; font-weight: 700; font-size: 0.875rem; padding: 8px 20px; border-radius: 6px; text-decoration: none; transition: opacity 0.2s, transform 0.2s; }
 .nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
 
-/* ── HERO ── */
+/* HERO */
 .hero {
-  position: relative;
-  z-index: 1;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 8rem 2rem 4rem;
-  overflow: hidden;
+  position: relative; z-index: 1;
+  min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 8rem 2rem 4rem; overflow: hidden;
 }
-.glow-orb {
-  position: absolute;
-  width: 800px; height: 800px;
-  background: radial-gradient(circle, #3b82f615 0%, transparent 70%);
-  top: 50%; left: 50%;
-  transform: translate(-50%, -60%);
-  pointer-events: none;
-}
-.glow-orb-yellow {
-  position: absolute;
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, #FFE60010 0%, transparent 70%);
-  top: 30%; left: 60%;
-  pointer-events: none;
-}
+.glow { position: absolute; width: 800px; height: 800px; background: radial-gradient(circle, #3b82f615 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -60%); pointer-events: none; }
+.glow2 { position: absolute; width: 400px; height: 400px; background: radial-gradient(circle, #FFE60010 0%, transparent 70%); top: 30%; left: 60%; pointer-events: none; }
 .hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  padding: 6px 16px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--muted);
-  margin-bottom: 2.5rem;
-  background: var(--card-bg);
-  backdrop-filter: blur(10px);
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1px solid var(--border); border-radius: 100px; padding: 6px 16px;
+  font-size: 0.8rem; font-weight: 500; color: var(--muted); margin-bottom: 2.5rem;
+  background: var(--card); backdrop-filter: blur(10px);
   animation: fadeIn 0.8s ease both;
 }
 .hero-badge span { color: var(--yellow); }
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.hero h1 {
-  font-family: 'Orbitron', sans-serif;
-  font-size: clamp(5rem, 14vw, 11rem);
-  line-height: 0.9;
-  letter-spacing: 4px;
-  animation: fadeIn 0.8s ease 0.1s both;
-}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.hero h1 { font-family: 'Orbitron', sans-serif; font-size: clamp(3.5rem, 10vw, 8rem); line-height: 0.95; letter-spacing: 6px; animation: fadeIn 0.8s ease 0.1s both; }
 .hero h1 .yellow { color: var(--yellow); }
-.hero-sub {
-  font-size: clamp(1rem, 2vw, 1.2rem);
-  color: var(--muted);
-  max-width: 500px;
-  line-height: 1.75;
-  margin: 2rem auto;
-  animation: fadeIn 0.8s ease 0.2s both;
-}
-.hero-actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-  animation: fadeIn 0.8s ease 0.3s both;
-}
-.btn-primary {
-  background: var(--yellow);
-  color: #04040f;
-  font-weight: 700;
-  padding: 14px 32px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-size: 0.95rem;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 40px #FFE60030;
-}
-.btn-ghost {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  color: var(--white);
-  font-weight: 500;
-  padding: 14px 32px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-size: 0.95rem;
-  transition: border-color 0.2s, transform 0.2s;
-  backdrop-filter: blur(10px);
-}
-.btn-ghost:hover {
-  border-color: rgba(255,255,255,0.2);
-  transform: translateY(-2px);
-}
+.hero-sub { font-size: clamp(1rem, 2vw, 1.2rem); color: var(--muted); max-width: 520px; line-height: 1.75; margin: 2rem auto; animation: fadeIn 0.8s ease 0.2s both; }
+.hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; animation: fadeIn 0.8s ease 0.3s both; }
+.btn-primary { background: var(--yellow); color: #04040f; font-weight: 700; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-size: 0.95rem; transition: transform 0.2s, box-shadow 0.2s; }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 40px #FFE60030; }
+.btn-ghost { background: var(--card); border: 1px solid var(--border); color: var(--white); font-weight: 500; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-size: 0.95rem; backdrop-filter: blur(10px); transition: border-color 0.2s, transform 0.2s; }
+.btn-ghost:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-2px); }
 
-/* ── MARQUEE ── */
-.marquee-wrap {
-  position: relative;
-  z-index: 1;
-  padding: 1.5rem 0;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  background: var(--card-bg);
+/* MARQUEE */
+.marquee-wrap { position: relative; z-index: 1; padding: 1.5rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--card); overflow: hidden; }
+.marquee { display: flex; gap: 3rem; animation: marquee 25s linear infinite; width: max-content; }
+.marquee-item { display: flex; align-items: center; gap: 8px; font-size: 0.875rem; font-weight: 500; color: var(--muted); white-space: nowrap; }
+.marquee-item .dot { width: 6px; height: 6px; background: var(--yellow); border-radius: 50%; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* STATS */
+.stats { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.stat { background: var(--bg); padding: 3rem 2rem; text-align: center; }
+.stat-num { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; letter-spacing: 2px; color: var(--yellow); line-height: 1; }
+.stat-label { font-size: 0.875rem; color: var(--muted); margin-top: 0.5rem; }
+
+/* DESTAQUE PROMOÇÃO */
+.promo-banner {
+  position: relative; z-index: 1;
+  margin: 5rem 4rem 0;
+  border: 1px solid #FFE60033;
+  border-radius: 20px;
+  padding: 4rem;
+  background: linear-gradient(135deg, #FFE60008, #FFE60003);
   overflow: hidden;
-}
-.marquee {
-  display: flex;
-  gap: 3rem;
-  animation: marquee 20s linear infinite;
-  width: max-content;
-}
-.marquee-item {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
   align-items: center;
-  gap: 8px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--muted);
-  white-space: nowrap;
 }
-.marquee-item .dot {
-  width: 6px; height: 6px;
-  background: var(--yellow);
-  border-radius: 50%;
-}
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-/* ── STATS ── */
-.stats {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1px;
-  background: var(--border);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-}
-.stat {
-  background: var(--bg);
-  padding: 3rem 2rem;
-  text-align: center;
-}
-.stat-num {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 3.5rem;
-  letter-spacing: 2px;
-  color: var(--yellow);
-  line-height: 1;
-}
-.stat-label {
-  font-size: 0.875rem;
-  color: var(--muted);
-  margin-top: 0.5rem;
-}
-
-/* ── FEATURES ── */
-.features {
-  position: relative;
-  z-index: 1;
-  padding: 8rem 4rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-.section-tag {
-  display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--yellow);
-  margin-bottom: 1rem;
-}
-.section-title {
-  font-family: 'Orbitron', sans-serif;
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-  letter-spacing: 2px;
-  line-height: 1;
-  margin-bottom: 1rem;
-}
-.section-sub {
-  color: var(--muted);
-  font-size: 1rem;
-  max-width: 500px;
-  line-height: 1.7;
-  margin-bottom: 4rem;
-}
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  overflow: hidden;
-}
-.feature-card {
-  background: var(--bg2);
-  padding: 2.5rem;
-  transition: background 0.3s;
-  position: relative;
-  overflow: hidden;
-}
-.feature-card::before {
+.promo-banner::before {
   content: '';
   position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 0% 0%, #FFE60008, transparent 60%);
-  opacity: 0;
-  transition: opacity 0.3s;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, #FFE60015, transparent 70%);
+  top: -100px; right: -100px;
+  pointer-events: none;
 }
+.promo-tag { display: inline-block; background: var(--yellow); color: #04040f; font-size: 0.7rem; font-weight: 700; padding: 4px 12px; border-radius: 100px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1.5rem; }
+.promo-banner h2 { font-family: 'Orbitron', sans-serif; font-size: clamp(1.5rem, 3vw, 2.5rem); letter-spacing: 2px; line-height: 1.2; margin-bottom: 1rem; }
+.promo-banner h2 span { color: var(--yellow); }
+.promo-banner p { color: var(--muted); line-height: 1.75; font-size: 0.95rem; margin-bottom: 2rem; }
+.promo-steps { display: flex; flex-direction: column; gap: 1.25rem; }
+.promo-step { display: flex; align-items: flex-start; gap: 1rem; }
+.step-num { width: 32px; height: 32px; background: var(--yellow); color: #04040f; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.875rem; flex-shrink: 0; }
+.step-text h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; }
+.step-text p { font-size: 0.825rem; color: var(--muted); }
+
+/* FEATURES */
+.features { position: relative; z-index: 1; padding: 8rem 4rem; max-width: 1200px; margin: 0 auto; }
+.section-tag { display: inline-block; font-size: 0.75rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--yellow); margin-bottom: 1rem; }
+.section-title { font-family: 'Orbitron', sans-serif; font-size: clamp(1.8rem, 4vw, 3rem); letter-spacing: 2px; line-height: 1.1; margin-bottom: 1rem; }
+.section-sub { color: var(--muted); font-size: 1rem; max-width: 500px; line-height: 1.7; margin-bottom: 4rem; }
+.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+.feature-card { background: var(--bg2); padding: 2.5rem; transition: background 0.3s; position: relative; overflow: hidden; }
+.feature-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 0% 0%, #FFE60008, transparent 60%); opacity: 0; transition: opacity 0.3s; }
 .feature-card:hover { background: #0c0c20; }
 .feature-card:hover::before { opacity: 1; }
-.feature-icon {
-  font-size: 1.75rem;
-  margin-bottom: 1.5rem;
-  display: block;
-}
-.feature-card h3 {
-  font-size: 1.05rem;
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-  letter-spacing: -0.3px;
-}
-.feature-card p {
-  font-size: 0.875rem;
-  color: var(--muted);
-  line-height: 1.7;
-}
+.feature-icon { font-size: 1.75rem; margin-bottom: 1.5rem; display: block; }
+.feature-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.75rem; }
+.feature-card p { font-size: 0.875rem; color: var(--muted); line-height: 1.7; }
+.feature-card.premium-feature { background: linear-gradient(135deg, #FFE60008, var(--bg2)); border-left: 2px solid var(--yellow); }
+.premium-label { display: inline-block; background: var(--yellow); color: #04040f; font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; letter-spacing: 1px; margin-bottom: 0.75rem; }
 
-/* ── PRICING ── */
-.pricing {
-  position: relative;
-  z-index: 1;
-  padding: 8rem 4rem;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-.pricing-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  margin-top: 4rem;
-}
-.plan {
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 2.5rem;
-  background: var(--card-bg);
-  position: relative;
-  transition: transform 0.3s, border-color 0.3s;
-}
-.plan:hover {
-  transform: translateY(-4px);
-  border-color: rgba(255,255,255,0.15);
-}
-.plan.featured {
-  border-color: var(--yellow);
-  background: linear-gradient(135deg, #FFE60010, #FFE60005);
-}
-.plan-badge {
-  position: absolute;
-  top: -13px; left: 50%;
-  transform: translateX(-50%);
-  background: var(--yellow);
-  color: #04040f;
-  font-size: 0.7rem;
-  font-weight: 700;
-  padding: 4px 14px;
-  border-radius: 100px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-.plan-name {
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 1.5rem;
-}
-.plan-price {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 4rem;
-  letter-spacing: 2px;
-  line-height: 1;
-  margin-bottom: 0.25rem;
-}
-.plan-period {
-  font-size: 0.8rem;
-  color: var(--muted);
-  margin-bottom: 2rem;
-}
-.plan-divider {
-  height: 1px;
-  background: var(--border);
-  margin-bottom: 2rem;
-}
-.plan-features {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.875rem;
-  margin-bottom: 2rem;
-}
-.plan-features li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.875rem;
-  color: var(--muted);
-}
-.plan-features li .check {
-  width: 18px; height: 18px;
-  background: #FFE60020;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 10px;
-  flex-shrink: 0;
-  color: var(--yellow);
-}
-.plan-btn {
-  display: block;
-  text-align: center;
-  padding: 12px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-decoration: none;
-  border: 1px solid var(--border);
-  color: var(--white);
-  transition: all 0.2s;
-}
-.plan.featured .plan-btn {
-  background: var(--yellow);
-  color: #04040f;
-  border-color: var(--yellow);
-}
+/* PRICING */
+.pricing { position: relative; z-index: 1; padding: 8rem 4rem; max-width: 1100px; margin: 0 auto; }
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 4rem; }
+.plan { border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem; background: var(--card); position: relative; transition: transform 0.3s, border-color 0.3s; }
+.plan:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.15); }
+.plan.featured { border-color: var(--yellow); background: linear-gradient(135deg, #FFE60010, #FFE60005); }
+.plan.premium { border-color: #a78bfa; background: linear-gradient(135deg, #a78bfa10, #a78bfa05); }
+.plan-badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); font-size: 0.7rem; font-weight: 700; padding: 4px 14px; border-radius: 100px; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; }
+.plan.featured .plan-badge { background: var(--yellow); color: #04040f; }
+.plan.premium .plan-badge { background: #a78bfa; color: #04040f; }
+.plan-name { font-size: 0.8rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem; }
+.plan-price { font-family: 'Orbitron', sans-serif; font-size: 3rem; letter-spacing: 2px; line-height: 1; margin-bottom: 0.25rem; }
+.plan-period { font-size: 0.8rem; color: var(--muted); margin-bottom: 2rem; }
+.plan-divider { height: 1px; background: var(--border); margin-bottom: 2rem; }
+.plan-features { list-style: none; display: flex; flex-direction: column; gap: 0.875rem; margin-bottom: 2rem; }
+.plan-features li { display: flex; align-items: flex-start; gap: 10px; font-size: 0.875rem; color: var(--muted); }
+.check { width: 18px; height: 18px; background: #FFE60020; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; color: var(--yellow); margin-top: 1px; }
+.plan.premium .check { background: #a78bfa20; color: #a78bfa; }
+.check-star { width: 18px; height: 18px; background: #a78bfa30; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; color: #a78bfa; margin-top: 1px; }
+.plan-btn { display: block; text-align: center; padding: 12px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; text-decoration: none; border: 1px solid var(--border); color: var(--white); transition: all 0.2s; }
+.plan.featured .plan-btn { background: var(--yellow); color: #04040f; border-color: var(--yellow); }
+.plan.premium .plan-btn { background: #a78bfa; color: #04040f; border-color: #a78bfa; }
 .plan-btn:hover { opacity: 0.85; transform: translateY(-1px); }
 
-/* ── CTA ── */
-.cta {
-  position: relative;
-  z-index: 1;
-  margin: 0 4rem 8rem;
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  padding: 6rem 4rem;
-  text-align: center;
-  background: linear-gradient(135deg, #080818, #0c0c28);
-  overflow: hidden;
-}
-.cta::before {
-  content: '';
-  position: absolute;
-  width: 600px; height: 300px;
-  background: radial-gradient(ellipse, #3b82f615, transparent 70%);
-  top: -100px; left: 50%;
-  transform: translateX(-50%);
-}
-.cta h2 {
-  font-family: 'Orbitron', sans-serif;
-  font-size: clamp(2.5rem, 5vw, 5rem);
-  letter-spacing: 3px;
-  position: relative;
-}
+/* CTA */
+.cta { position: relative; z-index: 1; margin: 0 4rem 8rem; border: 1px solid var(--border); border-radius: 24px; padding: 6rem 4rem; text-align: center; background: linear-gradient(135deg, #080818, #0c0c28); overflow: hidden; }
+.cta::before { content: ''; position: absolute; width: 600px; height: 300px; background: radial-gradient(ellipse, #3b82f615, transparent 70%); top: -100px; left: 50%; transform: translateX(-50%); }
+.cta h2 { font-family: 'Orbitron', sans-serif; font-size: clamp(1.8rem, 4vw, 3.5rem); letter-spacing: 3px; position: relative; }
 .cta h2 span { color: var(--yellow); }
-.cta p {
-  color: var(--muted);
-  margin: 1.5rem auto 2.5rem;
-  max-width: 440px;
-  font-size: 1rem;
-  line-height: 1.7;
-  position: relative;
-}
+.cta p { color: var(--muted); margin: 1.5rem auto 2.5rem; max-width: 440px; font-size: 1rem; line-height: 1.7; position: relative; }
 
-/* ── FOOTER ── */
-footer {
-  position: relative;
-  z-index: 1;
-  border-top: 1px solid var(--border);
-  padding: 2.5rem 4rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-.footer-logo {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.25rem;
-  letter-spacing: 2px;
-}
+/* FOOTER */
+footer { position: relative; z-index: 1; border-top: 1px solid var(--border); padding: 2.5rem 4rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+.footer-logo { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; letter-spacing: 2px; }
 .footer-logo span { color: var(--yellow); }
-footer p {
-  font-size: 0.8rem;
-  color: var(--muted);
-}
+footer p { font-size: 0.8rem; color: var(--muted); }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   nav { padding: 1rem 1.5rem; }
   .nav-links { display: none; }
   .features, .pricing { padding: 5rem 1.5rem; }
-  .features-grid { grid-template-columns: 1fr; }
-  .pricing-grid { grid-template-columns: 1fr; }
+  .features-grid, .pricing-grid { grid-template-columns: 1fr; }
+  .promo-banner { margin: 3rem 1.5rem 0; padding: 2.5rem; grid-template-columns: 1fr; gap: 2rem; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
   .cta { margin: 0 1.5rem 5rem; padding: 4rem 2rem; }
   footer { padding: 2rem 1.5rem; flex-direction: column; text-align: center; }
 }
 </style>
 </head>
 <body>
-
 <div class="grid-bg"></div>
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">Search<span>Produto</span></div>
+  <div class="nav-logo">SEARCH<span>PRODUTO</span></div>
   <ul class="nav-links">
     <li><a href="#funcionalidades">Funcionalidades</a></li>
     <li><a href="#planos">Planos</a></li>
@@ -526,13 +196,11 @@ footer p {
 
 <!-- HERO -->
 <section class="hero">
-  <div class="glow-orb"></div>
-  <div class="glow-orb-yellow"></div>
-  <div class="hero-badge">
-    <span>●</span> API oficial do Mercado Livre · Dados em tempo real
-  </div>
+  <div class="glow"></div>
+  <div class="glow2"></div>
+  <div class="hero-badge"><span>●</span> API oficial Mercado Livre · Dados em tempo real</div>
   <h1>SEARCH<br><span class="yellow">PRODUTO</span></h1>
-  <p class="hero-sub">Inteligência de mercado para vendedores do Mercado Livre. Analise preços, concorrentes, status Full e tendências em segundos.</p>
+  <p class="hero-sub">Inteligência de mercado + automação de promoções para vendedores do Mercado Livre. Analise, decida e venda mais — no piloto automático.</p>
   <div class="hero-actions">
     <a href="#planos" class="btn-primary">Começar grátis</a>
     <a href="#funcionalidades" class="btn-ghost">Ver funcionalidades</a>
@@ -545,7 +213,7 @@ footer p {
     <div class="marquee-item"><span class="dot"></span>Análise de Preços</div>
     <div class="marquee-item"><span class="dot"></span>Status Full</div>
     <div class="marquee-item"><span class="dot"></span>Volume de Vendas</div>
-    <div class="marquee-item"><span class="dot"></span>Idade do Anúncio</div>
+    <div class="marquee-item"><span class="dot"></span>Ativação Automática de Promoções</div>
     <div class="marquee-item"><span class="dot"></span>Tendências do Dia</div>
     <div class="marquee-item"><span class="dot"></span>Reputação do Vendedor</div>
     <div class="marquee-item"><span class="dot"></span>Exportar para Excel</div>
@@ -553,7 +221,7 @@ footer p {
     <div class="marquee-item"><span class="dot"></span>Análise de Preços</div>
     <div class="marquee-item"><span class="dot"></span>Status Full</div>
     <div class="marquee-item"><span class="dot"></span>Volume de Vendas</div>
-    <div class="marquee-item"><span class="dot"></span>Idade do Anúncio</div>
+    <div class="marquee-item"><span class="dot"></span>Ativação Automática de Promoções</div>
     <div class="marquee-item"><span class="dot"></span>Tendências do Dia</div>
     <div class="marquee-item"><span class="dot"></span>Reputação do Vendedor</div>
     <div class="marquee-item"><span class="dot"></span>Exportar para Excel</div>
@@ -566,19 +234,52 @@ footer p {
   <div class="stat"><div class="stat-num">50+</div><div class="stat-label">Resultados por busca</div></div>
   <div class="stat"><div class="stat-num">20+</div><div class="stat-label">Dados por anúncio</div></div>
   <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Dados oficiais do ML</div></div>
-  <div class="stat"><div class="stat-num">Real</div><div class="stat-label">Tempo real via API</div></div>
+  <div class="stat"><div class="stat-num">AUTO</div><div class="stat-label">Promoções no piloto automático</div></div>
+</div>
+
+<!-- DESTAQUE PROMOÇÃO -->
+<div class="promo-banner">
+  <div>
+    <div class="promo-tag">⚡ Exclusivo Premium</div>
+    <h2>CHEGA DE APLICAR<br><span>PROMOÇÃO</span><br>NA MÃO</h2>
+    <p>Todo fim e início de mês é a mesma história: anúncio por anúncio, um por um, verificando quais promoções estão disponíveis. Com o Search Produto Premium, isso vira passado.</p>
+    <a href="#planos" class="btn-primary">Ver plano Premium →</a>
+  </div>
+  <div class="promo-steps">
+    <div class="promo-step">
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <h4>Conecta sua conta do ML</h4>
+        <p>Login seguro via OAuth oficial do Mercado Livre. Seus dados ficam protegidos.</p>
+      </div>
+    </div>
+    <div class="promo-step">
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <h4>Varremos todos os seus anúncios</h4>
+        <p>O sistema identifica automaticamente quais anúncios têm promoção disponível para aplicar.</p>
+      </div>
+    </div>
+    <div class="promo-step">
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <h4>1 clique — todas aplicadas</h4>
+        <p>Você aprova e o sistema aplica todas de uma vez. Ou ativa o modo automático e nem precisa aprovar.</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- FEATURES -->
 <section class="features" id="funcionalidades">
   <div class="section-tag">Funcionalidades</div>
-  <h2 class="section-title">Tudo que você precisa<br>para vender mais</h2>
+  <h2 class="section-title">TUDO QUE VOCÊ<br>PRECISA PARA<br>VENDER MAIS</h2>
   <p class="section-sub">Dados reais do Mercado Livre organizados de forma inteligente para você tomar decisões melhores.</p>
   <div class="features-grid">
     <div class="feature-card">
       <span class="feature-icon">🔍</span>
       <h3>Busca Inteligente</h3>
-      <p>Pesquise qualquer produto e veja os 50 primeiros resultados com todos os dados em uma única tela organizada.</p>
+      <p>Pesquise qualquer produto e veja os 50 primeiros resultados com todos os dados em uma única tela.</p>
     </div>
     <div class="feature-card">
       <span class="feature-icon">💰</span>
@@ -588,7 +289,7 @@ footer p {
     <div class="feature-card">
       <span class="feature-icon">🚀</span>
       <h3>Status Full</h3>
-      <p>Identifique quais concorrentes usam Mercado Envios Full e o impacto disso nas vendas deles.</p>
+      <p>Identifique quais concorrentes usam Mercado Envios Full e o impacto nas vendas deles.</p>
     </div>
     <div class="feature-card">
       <span class="feature-icon">📊</span>
@@ -605,13 +306,31 @@ footer p {
       <h3>Tendências</h3>
       <p>Descubra o que está sendo mais buscado no ML hoje e antecipe oportunidades de mercado.</p>
     </div>
+    <div class="feature-card premium-feature">
+      <div class="premium-label">PREMIUM</div>
+      <span class="feature-icon">⚡</span>
+      <h3>Ativação Automática de Promoções</h3>
+      <p>Varre todos os seus anúncios e aplica promoções disponíveis com 1 clique — ou no modo totalmente automático.</p>
+    </div>
+    <div class="feature-card premium-feature">
+      <div class="premium-label">PREMIUM</div>
+      <span class="feature-icon">🔔</span>
+      <h3>Alertas de Promoção</h3>
+      <p>Receba notificação assim que uma nova promoção ficar disponível para qualquer um dos seus anúncios.</p>
+    </div>
+    <div class="feature-card premium-feature">
+      <div class="premium-label">PREMIUM</div>
+      <span class="feature-icon">📋</span>
+      <h3>Relatório de Promoções</h3>
+      <p>Histórico completo de todas as promoções aplicadas, economia gerada e impacto nas vendas.</p>
+    </div>
   </div>
 </section>
 
 <!-- PRICING -->
 <section class="pricing" id="planos">
   <div class="section-tag">Planos</div>
-  <h2 class="section-title">Simples e transparente</h2>
+  <h2 class="section-title">SIMPLES E<br>TRANSPARENTE</h2>
   <p class="section-sub">Sem surpresas. Cancele quando quiser.</p>
   <div class="pricing-grid">
     <div class="plan">
@@ -645,19 +364,22 @@ footer p {
       </ul>
       <a href="#" class="plan-btn">Começar agora</a>
     </div>
-    <div class="plan">
-      <div class="plan-name">Agência</div>
-      <div class="plan-price">R$497</div>
+    <div class="plan premium">
+      <div class="plan-badge">⚡ Exclusivo</div>
+      <div class="plan-name">Premium</div>
+      <div class="plan-price">R$397</div>
       <div class="plan-period">por mês</div>
       <div class="plan-divider"></div>
       <ul class="plan-features">
-        <li><span class="check">✓</span>Tudo do plano Pro</li>
-        <li><span class="check">✓</span>Multi-usuário (10 contas)</li>
-        <li><span class="check">✓</span>Acesso via API</li>
-        <li><span class="check">✓</span>Relatórios personalizados</li>
-        <li><span class="check">✓</span>Gerente de conta dedicado</li>
+        <li><span class="check-star">✓</span>Tudo do plano Pro</li>
+        <li><span class="check-star">⚡</span>Ativação automática de promoções</li>
+        <li><span class="check-star">🔔</span>Alertas de promoção em tempo real</li>
+        <li><span class="check-star">📋</span>Relatório de promoções aplicadas</li>
+        <li><span class="check-star">✓</span>Multi-usuário (até 5 contas)</li>
+        <li><span class="check-star">✓</span>Acesso via API</li>
+        <li><span class="check-star">✓</span>Gerente de conta dedicado</li>
       </ul>
-      <a href="#" class="plan-btn">Falar com vendas</a>
+      <a href="#" class="plan-btn">Quero o Premium</a>
     </div>
   </div>
 </section>
@@ -665,13 +387,13 @@ footer p {
 <!-- CTA FINAL -->
 <div class="cta">
   <h2>PRONTO PARA<br><span>VENDER MAIS?</span></h2>
-  <p>Junte-se a centenas de vendedores que usam dados reais para tomar decisões melhores no Mercado Livre.</p>
+  <p>Junte-se a centenas de vendedores que usam dados reais e automação para crescer no Mercado Livre.</p>
   <a href="#planos" class="btn-primary" style="font-size:1rem; padding:16px 40px;">Começar agora →</a>
 </div>
 
 <!-- FOOTER -->
 <footer id="contato">
-  <div class="footer-logo">Search<span>Produto</span></div>
+  <div class="footer-logo">SEARCH<span>PRODUTO</span></div>
   <p>© 2026 Promoblend. Todos os direitos reservados.</p>
   <p>comercialpromoblend@gmail.com</p>
 </footer>
